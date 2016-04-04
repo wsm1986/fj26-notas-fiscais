@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Sistema de Notas Fiscais</title>
+	<h:outputStylesheet name="style.css" library="css"></h:outputStylesheet>
+</h:head>
+<h:body>
+	<div id="cabecalho">
+		<h:graphicImage library="imagens" name="logo-uber.png"
+			id="logoCompany"></h:graphicImage>
+		<div id="usuarioLogado">Logado como: #{loginBean.usuario.login}
+		</div>
+	</div>
+
+	<div id="conteudo">
+	<h:messages />
+		<h:form id="formulario">
+			<p:menubar>
+				<p:menuitem value="Produtos" url="produto.xhtml" />
+				<p:submenu label="Notas Fiscais">
+					<p:menuitem value="Cadastro" url="notafiscal.xhtml" />
+					<p:menuitem value="Listagem" url="listarNotas.xhtml" />
+				</p:submenu>
+				<p:menuitem value="SAIR" action="#{loginBean.logOut}" />
+			</p:menubar>
+			<p:tabView>
+				<p:tab title="Nota">
+					<fieldset>
+						<legend>Dados da Nota</legend>
+						<h:panelGrid columns="2">
+							<h:outputLabel value="CNPJ DO CLIENTE:" />
+							<p:inputMask mask="99.999.999/9999-99"
+								value="#{notaFiscalBean.notaFiscal.cnpj}" />
+
+							<h:outputLabel value="DATA: " />
+							<p:calendar pattern="dd/MM/yyyy"
+								value="#{notaFiscalBean.notaFiscal.data.time}" />
+						</h:panelGrid>
+					</fieldset>
+				</p:tab>
+				<p:tab title="Produto">
+					<fieldset>
+						<legend>Dados do Item </legend>
+						<h:outputLabel value="Produto:" />
+						 <h:selectOneMenu rendered="false" value="#{notaFiscalBean.idProduto}">
+							<f:selectItems value="#{produtoBean.produtos}" var="p"
+								itemValue="#{p.id}" itemLabel="#{p.nome}" />
+						</h:selectOneMenu> 
+						<h:selectOneMenu value="#{notaFiscalBean.item.produto}">
+							<f:selectItems value="#{produtoBean.produtos}" var="p"
+								itemValue="#{p}" itemLabel="#{p.nome}" />
+						</h:selectOneMenu>
+						<h:outputLabel value="Quantidade: " />
+						<h:inputText value="#{notaFiscalBean.item.quantidade}">
+						</h:inputText>
+						<h:commandButton value="Gravar Item"
+							action="#{notaFiscalBean.guardarItem}" />
+					</fieldset>
+				</p:tab>
+			</p:tabView>
+			<h2>Itens da Nota</h2>
+			<p:dataTable value="#{notaFiscalBean.notaFiscal.itens}" var="itens">
+				<p:column>
+					<f:facet name="header">Produto</f:facet>
+					#{itens.produto.nome}
+				</p:column>
+				<p:column>
+					<f:facet name="header">Valor Unitario</f:facet>
+					<h:outputText value="#{itens.valorUnitario}">
+						<f:convertNumber type="currency" currencySymbol="R$ "
+							locale="pt_BR" />
+					</h:outputText>
+				</p:column>
+				<p:column>
+					<f:facet name="header">Quantidade</f:facet>
+					#{itens.quantidade}
+				</p:column>
+				<p:column>
+					<f:facet name="header">Total</f:facet>
+					<h:outputText value="#{itens.total}">
+						<f:convertNumber type="currency" currencySymbol="R$ "
+							locale="pt_BR" />
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
+			<h:panelGrid>
+				<h:commandButton value="Gravar" action="#{notaFiscalBean.gravar}" />
+			</h:panelGrid>
+		</h:form>
+	</div>
+	<div id="rodape">Todos os Direitos Reservados</div>
+</h:body>
+</html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Sistema de Notas Fiscais</title>
+	<h:outputStylesheet name="style.css" library="css"></h:outputStylesheet>
+</h:head>
+<h:body>
+	<div id="cabecalho">
+		<h:graphicImage library="imagens" name="logo-uber.png"
+			id="logoCompany"></h:graphicImage>
+		<div id="usuarioLogado">Logado como: #{loginBean.usuario.login}
+		</div>
+	</div>
+
+	<div id="conteudo">
+		<h:form id="formulario">
+			<p:menubar>
+				<p:menuitem value="Produtos" url="produto.xhtml" />
+				<p:submenu label="Notas Fiscais">
+					<p:menuitem value="Cadastro" url="notafiscal.xhtml" />
+					<p:menuitem value="Listagem" url="listanota.xhtml" />
+				</p:submenu>
+				<p:menuitem value="SAIR" url="produto.xhtml" />
+			</p:menubar>
+			<p:dataTable value="#{listaNotasFiscaisBean.lista}" var="itens">
+				<p:column>
+					<f:facet name="header">CNPJ</f:facet>
+					#{itens.cnpj}
+				</p:column>
+				<p:column>
+					<f:facet name="header">Data</f:facet>
+					<h:outputText value="#{itens.data.time}">
+					<f:convertDateTime pattern="dd/MM/yyyy"/>
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</div>
+	<div id="rodape">Todos os Direitos Reservados</div>
+</h:body>
+</html>

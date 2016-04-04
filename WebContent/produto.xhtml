@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:s="http://jboss.org/seam/faces">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Sistema de Notas Fiscais</title>
+	<h:outputStylesheet name="style.css" library="css"></h:outputStylesheet>
+</h:head>
+<h:body>
+	<div id="cabecalho">
+		<h:graphicImage library="imagens" name="logo-uber.png"
+			id="logoCompany"></h:graphicImage>
+		<div id="usuarioLogado">Logado como:
+			#{usuarioLogadoBean.usuario.login}</div>
+	</div>
+	<h2>
+		<h:outputText value="NOVO PRODUTO"
+			rendered="#{empty produtoBean.produto.id}" />
+		<h:outputText value="EDITAR PRODUTO"
+			rendered="#{not empty produtoBean.produto.id}" />
+	</h2>
+
+	<div id="conteudo">
+
+		<h:form id="formulario">
+			<s:validateForm validatorId="nomeedescricao" />
+
+
+			<p:menubar>
+				<p:menuitem value="Produtos" url="produto.xhtml" />
+				<p:submenu label="Notas Fiscais">
+					<p:menuitem value="Cadastro" url="notafiscal.xhtml" />
+					<p:menuitem value="Listagem" url="listarNotas.xhtml" />
+				</p:submenu>
+				<p:menuitem value="SAIR" action="#{loginBean.logOut}" />
+			</p:menubar>
+
+			<h2>Dados do Produtos</h2>
+
+			<fieldset>
+
+				<h:outputScript name="jsf.js" library="javax.faces" target="head" />
+				<h:outputLabel value="Nome" for="nome" />
+				<h:inputText id="nome" value="#{produtoBean.produto.nome}" />
+
+				<h:outputLabel value="Descrição" for="descricao" />
+				<h:inputTextarea id="descricao"
+					value="#{produtoBean.produto.descricao}" />
+
+				<h:outputLabel value="Preço" for="preco" />
+				<h:inputText id="preco" value="#{produtoBean.produto.preco}"
+					required="true" requiredMessage="Preço obrigatorio"
+					validatorMessage="O valor minimo é 0,50">
+					<f:validateDoubleRange minimum="0.50" />
+				</h:inputText>
+				<h:panelGrid columns="2">
+					<p:commandButton value="Gravar" action="#{produtoBean.grava}"
+						update="@form">
+						<f:ajax render="@form"
+							execute=":formulario:nome :formulario:descricao :formulario:preco" />
+					</p:commandButton>
+
+					<p:commandButton value="Cancelar" action="produto" immediate="true"
+						update="@form" />
+				</h:panelGrid>
+			</fieldset>
+			<h2>Listagem de Produtos</h2>
+			<h:dataTable value="#{produtoBean.produtos}" var="p" border="1"
+				styleClass="dados" rowClasses="impar,par" id="tabela">
+				<h:column>
+					<f:facet name="header">ID</f:facet>
+				#{p.id}
+			</h:column>
+				<h:column>
+					<f:facet name="header">Nome</f:facet>
+				#{p.nome}
+			</h:column>
+				<h:column>
+					<f:facet name="header">Descricao</f:facet>
+				#{p.descricao}
+			</h:column>
+				<h:column>
+					<f:facet name="header">Preco</f:facet>
+				#{p.preco}
+				<f:facet name="footer">Total: 
+						#{produtoBean.total}
+				</f:facet>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Acoes</f:facet>
+					<h:commandLink action="#{produtoBean.remover(p)}"
+						value="Remover  -  ">
+						<f:ajax render="@form" />
+					</h:commandLink>
+					<h:commandLink value="Alterar">
+						<f:setPropertyActionListener value="#{p}"
+							target="#{produtoBean.produto}"></f:setPropertyActionListener>
+						<f:ajax render="@form" />
+					</h:commandLink>
+				</h:column>
+			</h:dataTable>
+			<p:messages id="messages" showDetail="true" />
+		</h:form>
+	</div>
+	<div id="rodape">Todos os Direitos Reservados</div>
+</h:body>
+</html>
