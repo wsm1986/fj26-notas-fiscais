@@ -64,7 +64,7 @@
 				</p:tab>
 			</p:tabView>
 			<h2>Itens da Nota</h2>
-			<p:dataTable value="#{notaFiscalBean.notaFiscal.itens}" var="itens">
+			<p:dataTable value="#{notaFiscalBean.notaFiscal.itens}" var="itens" binding="#{notaFiscalBean.tabela}">
 				<p:column>
 					<f:facet name="header">Produto</f:facet>
 					#{itens.produto.nome}
@@ -81,12 +81,17 @@
 					#{itens.quantidade}
 				</p:column>
 				<p:column>
+					<f:facet name="header">Remover</f:facet>
+					<p:commandLink action="#{notaFiscalBean.removeItem}" update="@form"> remover </p:commandLink>
+				</p:column>
+				<p:column>
 					<f:facet name="header">Total</f:facet>
 					<h:outputText value="#{itens.total}">
 						<f:convertNumber type="currency" currencySymbol="R$ "
 							locale="pt_BR" />
 					</h:outputText>
 				</p:column>
+
 			</p:dataTable>
 			<h:panelGrid>
 				<h:commandButton value="Gravar" action="#{notaFiscalBean.gravar}" />

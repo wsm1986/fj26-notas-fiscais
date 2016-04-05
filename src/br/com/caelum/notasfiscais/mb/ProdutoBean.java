@@ -57,7 +57,7 @@ public class ProdutoBean implements Serializable {
 		}
 		return produtos;
 	}
-
+	@Transactional
 	public void remover(Produto produto) {
 		dao.remove(produto);
 		produtos = dao.listaTodos();

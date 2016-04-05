@@ -10,12 +10,14 @@ import br.com.caelum.notasficais.annotation.Transactional;
 import br.com.caelum.notasfiscais.dao.DAO;
 import br.com.caelum.notasfiscais.modelo.Item;
 import br.com.caelum.notasfiscais.modelo.NotaFiscal;
+import org.primefaces.component.datatable.DataTable;;
 
 @Named
 @ViewScoped
 public class NotaFiscalBean implements Serializable {
 	private NotaFiscal notaFiscal = new NotaFiscal();
 	private Item item = new Item();
+	private org.primefaces.component.datatable.DataTable  tabela;
 	
 	@Inject
 	DAO<NotaFiscal> dao;
@@ -48,4 +50,18 @@ public class NotaFiscalBean implements Serializable {
 	public void setNotaFiscal(NotaFiscal notaFiscal) {
 		this.notaFiscal = notaFiscal;
 	}
+	
+	public void removeItem(){
+		Item item = (Item) tabela.getRowData();
+		notaFiscal.getItens().remove(item);
+	}
+
+	public org.primefaces.component.datatable.DataTable getTabela() {
+		return tabela;
+	}
+
+	public void setTabela(org.primefaces.component.datatable.DataTable tabela) {
+		this.tabela = tabela;
+	}
+
 }
