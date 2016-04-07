@@ -6,11 +6,11 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.com.caelum.notasficais.annotation.EmailFinanceiro;
 import br.com.caelum.notasficais.annotation.Transactional;
 import br.com.caelum.notasfiscais.dao.DAO;
 import br.com.caelum.notasfiscais.modelo.Item;
 import br.com.caelum.notasfiscais.modelo.NotaFiscal;
-import org.primefaces.component.datatable.DataTable;;
 
 @Named
 @ViewScoped
@@ -22,8 +22,12 @@ public class NotaFiscalBean implements Serializable {
 	@Inject
 	DAO<NotaFiscal> dao;
 
+	@Inject @EmailFinanceiro
+	private String emailFinanceiro;
+	
 	@Transactional
 	public void gravar() {
+		System.out.println(emailFinanceiro);
 		dao.adiciona(notaFiscal);
 		notaFiscal = new NotaFiscal();
 	}

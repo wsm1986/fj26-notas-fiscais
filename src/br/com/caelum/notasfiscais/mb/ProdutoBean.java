@@ -11,6 +11,7 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.com.caelum.notasficais.annotation.EmailComercial;
 import br.com.caelum.notasficais.annotation.Transactional;
 import br.com.caelum.notasfiscais.dao.DAO;
 import br.com.caelum.notasfiscais.modelo.Produto;
@@ -21,7 +22,10 @@ public class ProdutoBean implements Serializable {
 	private Produto produto = new Produto();
 	@Inject
 	DAO<Produto> dao;
-
+	
+	@Inject @EmailComercial
+	private String emailComercial;
+	
 	private List<Produto> produtos;
 
 	private Double total = new Double(0);
@@ -39,7 +43,7 @@ public class ProdutoBean implements Serializable {
 	}
 	@Transactional
 	public String grava() {
-		
+		System.out.println(emailComercial);
 		if (produto.getId() == null) {
 			dao.adiciona(produto);
 		} else {
