@@ -18,7 +18,7 @@
 	</div>
 
 	<div id="conteudo">
-	<h:messages />
+	<p:messages id="msg"/>
 		<h:form id="formulario">
 			<p:menubar>
 				<p:menuitem value="Produtos" url="produto.xhtml" />
@@ -43,58 +43,11 @@
 						</h:panelGrid>
 					</fieldset>
 				</p:tab>
-				<p:tab title="Produto">
-					<fieldset>
-						<legend>Dados do Item </legend>
-						<h:outputLabel value="Produto:" />
-						 <h:selectOneMenu rendered="false" value="#{notaFiscalBean.idProduto}">
-							<f:selectItems value="#{produtoBean.produtos}" var="p"
-								itemValue="#{p.id}" itemLabel="#{p.nome}" />
-						</h:selectOneMenu> 
-						<h:selectOneMenu value="#{notaFiscalBean.item.produto}">
-							<f:selectItems value="#{produtoBean.produtos}" var="p"
-								itemValue="#{p}" itemLabel="#{p.nome}" />
-						</h:selectOneMenu>
-						<h:outputLabel value="Quantidade: " />
-						<h:inputText value="#{notaFiscalBean.item.quantidade}">
-						</h:inputText>
-						<h:commandButton value="Gravar Item"
-							action="#{notaFiscalBean.guardarItem}" />
-					</fieldset>
-				</p:tab>
+			
 			</p:tabView>
-			<h2>Itens da Nota</h2>
-			<p:dataTable value="#{notaFiscalBean.notaFiscal.itens}" var="itens" binding="#{notaFiscalBean.tabela}">
-				<p:column>
-					<f:facet name="header">Produto</f:facet>
-					#{itens.produto.nome}
-				</p:column>
-				<p:column>
-					<f:facet name="header">Valor Unitario</f:facet>
-					<h:outputText value="#{itens.valorUnitario}">
-						<f:convertNumber type="currency" currencySymbol="R$ "
-							locale="pt_BR" />
-					</h:outputText>
-				</p:column>
-				<p:column>
-					<f:facet name="header">Quantidade</f:facet>
-					#{itens.quantidade}
-				</p:column>
-				<p:column>
-					<f:facet name="header">Remover</f:facet>
-					<p:commandLink action="#{notaFiscalBean.removeItem}" update="@form"> remover </p:commandLink>
-				</p:column>
-				<p:column>
-					<f:facet name="header">Total</f:facet>
-					<h:outputText value="#{itens.total}">
-						<f:convertNumber type="currency" currencySymbol="R$ "
-							locale="pt_BR" />
-					</h:outputText>
-				</p:column>
-
-			</p:dataTable>
+			
 			<h:panelGrid>
-				<h:commandButton value="Gravar" action="#{notaFiscalBean.gravar}" />
+				<p:commandButton value="Avancar" action="#{notaFiscalBean.avancar}" update="@form,msg" />
 			</h:panelGrid>
 		</h:form>
 	</div>

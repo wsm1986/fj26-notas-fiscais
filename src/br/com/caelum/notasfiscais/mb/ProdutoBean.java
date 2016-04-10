@@ -13,11 +13,11 @@ import javax.inject.Named;
 
 import br.com.caelum.notasficais.annotation.EmailComercial;
 import br.com.caelum.notasficais.annotation.Transactional;
+import br.com.caelum.notasficais.annotation.ViewBean;
 import br.com.caelum.notasfiscais.dao.DAO;
 import br.com.caelum.notasfiscais.modelo.Produto;
 
-@Named
-@ViewScoped
+@ViewBean
 public class ProdutoBean implements Serializable {
 	private Produto produto = new Produto();
 	@Inject
