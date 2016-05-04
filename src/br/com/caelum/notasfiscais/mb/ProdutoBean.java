@@ -3,6 +3,7 @@ package br.com.caelum.notasfiscais.mb;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
@@ -11,13 +12,14 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.com.caelum.notasficais.annotation.Auditavel;
 import br.com.caelum.notasficais.annotation.EmailComercial;
 import br.com.caelum.notasficais.annotation.Transactional;
 import br.com.caelum.notasficais.annotation.ViewBean;
 import br.com.caelum.notasfiscais.dao.DAO;
 import br.com.caelum.notasfiscais.modelo.Produto;
 
-@ViewBean
+@Named @RequestScoped
 public class ProdutoBean implements Serializable {
 	private Produto produto = new Produto();
 	@Inject
@@ -42,6 +44,7 @@ public class ProdutoBean implements Serializable {
 		produto = new Produto();
 	}
 	@Transactional
+	@Auditavel
 	public String grava() {
 		System.out.println(emailComercial);
 		if (produto.getId() == null) {
